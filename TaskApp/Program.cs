@@ -40,16 +40,16 @@ namespace TaskManagementApp
             using (var scope = serviceProvider.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<TaskManagementDbContext>();
-                var taskService = scope.ServiceProvider.GetRequiredService<AppTaskRepository>();
-                var userService = scope.ServiceProvider.GetRequiredService<AppUserRepository>();
+                var taskService = scope.ServiceProvider.GetRequiredService<IAppTaskRepository>();
+                var userService = scope.ServiceProvider.GetRequiredService<IAppUserRepository>();
 
 
-                var list = context.AppUser.ToList();
+                //var list = userService.GetAll();
 
-                foreach (var item in list)
-                {
-                    Console.WriteLine(item.UserName);
-                }
+                //foreach (var item in list)
+                //{
+                //    Console.WriteLine(item.UserName);
+                //}
 
 
                 var loggedInUser = StartUserOperations(userService);
@@ -84,7 +84,7 @@ namespace TaskManagementApp
             }
             return list;
         }
-        private static AppUser StartUserOperations(AppUserRepository userService)
+        private static AppUser StartUserOperations(IAppUserRepository userService)
         {
             Console.WriteLine("1. Kullanıcı Kayıt");
             Console.WriteLine("2. Kullanıcı Giriş");
@@ -104,7 +104,7 @@ namespace TaskManagementApp
             }
             return null;
         }
-        private static void RegisterUser(AppUserRepository userService)
+        private static void RegisterUser(IAppUserRepository userService)
         {
             Console.Write("Kullanıcı adınızı girin: ");
             var username = Console.ReadLine();
@@ -116,7 +116,7 @@ namespace TaskManagementApp
 
         }
 
-        private static void ManageTasks(AppTaskRepository taskService, AppUser loggedInUser)
+        private static void ManageTasks(IAppTaskRepository taskService, AppUser loggedInUser)
         {
             while (true)
             {
@@ -153,7 +153,7 @@ namespace TaskManagementApp
             }
         }
 
-        private static void DisplayAssignedTasks(AppTaskRepository taskService, int userId)
+        private static void DisplayAssignedTasks(IAppTaskRepository taskService, int userId)
         {
             var assignedTasks = taskService.GetAssignedTasks(userId);
             Console.WriteLine("\nÜzerimdeki Tasklar:");
@@ -164,7 +164,7 @@ namespace TaskManagementApp
             }
         }
 
-        private static void CreateNewTask(AppTaskRepository taskService, int createdByUserId)
+        private static void CreateNewTask(IAppTaskRepository taskService, int createdByUserId)
         {
             AppTask newTask = new AppTask();
             Console.Write("Task başlığı girin: ");
@@ -180,7 +180,7 @@ namespace TaskManagementApp
             Console.WriteLine("Yeni task oluşturuldu.");
         }
 
-        private static void UpdateTask(AppTaskRepository taskService, int createdByUserId)
+        private static void UpdateTask(IAppTaskRepository taskService, int createdByUserId)
         {
 
             AppTask newTask = new AppTask();
@@ -198,7 +198,7 @@ namespace TaskManagementApp
             Console.WriteLine("Task güncellendi.");
         }
 
-        private static void DeleteTask(AppTaskRepository taskService, int createdByUserId)
+        private static void DeleteTask(IAppTaskRepository taskService, int createdByUserId)
         {
             Console.Write("Silmek istediğiniz task Id'sini girin: ");
             var taskId = int.Parse(Console.ReadLine());
