@@ -40,8 +40,8 @@ namespace TaskManagementApp
             using (var scope = serviceProvider.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<TaskManagementDbContext>();
-                var taskService = scope.ServiceProvider.GetRequiredService<IAppTaskRepository>();
-                var userService = scope.ServiceProvider.GetRequiredService<IAppUserRepository>();
+                var taskService = scope.ServiceProvider.GetRequiredService<AppTaskRepository>();
+                var userService = scope.ServiceProvider.GetRequiredService<AppUserRepository>();
 
 
                 var list = context.AppUser.ToList();
