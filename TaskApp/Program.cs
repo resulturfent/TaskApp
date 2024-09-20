@@ -13,6 +13,7 @@ using TaskManagement.Domain.IRepository;
 using System;
 using TaskManagement.Domain.Entity;
 using TaskManagement.DataLayer.Configurations;
+using System.Reflection;
 
 
 namespace TaskManagementApp
@@ -34,12 +35,14 @@ namespace TaskManagementApp
             //.AddTransient<TaskService>()
             .BuildServiceProvider();
 
+          
+
 
             //var serviceProvider = new ServiceCollection();
 
             using (var scope = serviceProvider.CreateScope())
             {
-                var context = scope.ServiceProvider.GetRequiredService<TaskManagementDbContext>();
+                //var context = scope.ServiceProvider.GetRequiredService<TaskManagementDbContext>();
                 var taskService = scope.ServiceProvider.GetRequiredService<IAppTaskRepository>();
                 var userService = scope.ServiceProvider.GetRequiredService<IAppUserRepository>();
 
